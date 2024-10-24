@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,112 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: piskel final 1 (3)_0
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 356
+        width: 439
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00636309b139a5349ba750dd9480868a
+      internalID: 64523879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: piskel final 1 (3)_1
+      rect:
+        serializedVersion: 2
+        x: 1460
+        y: 356
+        width: 619
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d4cad18a8517b44691baef4abf1cbbb
+      internalID: 896708374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: piskel final 1 (3)_2
+      rect:
+        serializedVersion: 2
+        x: 2744
+        y: 344
+        width: 427
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06bbf0f57d2a91a4cafa123ff38e0665
+      internalID: -267495676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: piskel final 1 (3)_3
+      rect:
+        serializedVersion: 2
+        x: 3945
+        y: 344
+        width: 427
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2dd96099c0485048ada8bf3d4c99466
+      internalID: -1781423229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: piskel final 1 (3)_4
+      rect:
+        serializedVersion: 2
+        x: 5084
+        y: 379
+        width: 583
+        height: 669
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae37b17c4c385bc408d57ad6f81d2d90
+      internalID: -1877701095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +224,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      piskel final 1 (3)_0: 64523879
+      piskel final 1 (3)_1: 896708374
+      piskel final 1 (3)_2: -267495676
+      piskel final 1 (3)_3: -1781423229
+      piskel final 1 (3)_4: -1877701095
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

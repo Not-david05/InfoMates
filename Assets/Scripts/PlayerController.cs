@@ -1,18 +1,104 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PersonajeJu : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+
+    private Rigidbody2D rb;
+    private Animator animator;
+
+    private Vector2 movement;
+    private bool isGrounded;
+
+    
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Obtener la entrada del usuario para moverse (izquierda/derecha)
+        float moveX = Input.GetAxisRaw("Horizontal");
+
+        // Establecer el movimiento
+        movement = new Vector2(moveX, 0).normalized;
+
+        // Detectar si el personaje está en el suelo usando la función `IsGrounded`
+        isGrounded = IsGrounded();
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+         else if (Input.GetKey(KeyCode.D))
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        // Animación de caminar
+        if (moveX != 0)
+        {
+            animator.SetBool("isRunning", true);
+            animator.SetBool("isFalling", false);
+
+            // Voltear el sprite dependiendo de la dirección del movimiento
+           
+        }
+        else if (!isGrounded)
+        {
+            animator.SetBool("isFalling", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isFalling", false);
+        }
+
+        // Saltar cuando se presiona la tecla "Jump" (por defecto la tecla Espacio)
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            Jump();
+        }
+
+        // Actualizar la animación de salto
+        animator.SetBool("isJumping", !isGrounded);
+    }
+
+    void FixedUpdate()
+    {
+        // Mover al personaje horizontalmente
+        rb.velocity = new Vector2(movement.x * moveSpeed, rb.velocity.y);
+    }
+
+    void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    private bool IsGrounded()
+    {
+        // Dibuja un pequeño círculo en el punto `groundCheck` para verificar colisiones con el suelo
+        Collider2D collider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        return collider != null;
+    }
+
+
+    // Método para visualizar el GroundCheck en la ventana de Scene (opcional, útil para depuración)
+    private void OnDrawGizmos()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }
