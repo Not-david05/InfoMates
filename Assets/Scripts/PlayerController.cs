@@ -33,24 +33,24 @@ public class PlayerController : MonoBehaviour
         // Establecer el movimiento
         movement = new Vector2(moveX, 0).normalized;
 
-        // Detectar si el personaje está en el suelo usando la función `IsGrounded`
+        // Detectar si el personaje estï¿½ en el suelo usando la funciï¿½n `IsGrounded`
         isGrounded = IsGrounded();
         if (Input.GetKey(KeyCode.A))
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
          else if (Input.GetKey(KeyCode.D))
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
-        // Animación de caminar
+        // Animaciï¿½n de caminar
         if (moveX != 0)
         {
             animator.SetBool("isRunning", true);
             animator.SetBool("isFalling", false);
 
-            // Voltear el sprite dependiendo de la dirección del movimiento
+            // Voltear el sprite dependiendo de la direcciï¿½n del movimiento
            
         }
         else if (!isGrounded)
@@ -64,12 +64,13 @@ public class PlayerController : MonoBehaviour
         }
 
         // Saltar cuando se presiona la tecla "Jump" (por defecto la tecla Espacio)
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        
+        if (Input. GetKeyDown(KeyCode.Space)) 
         {
             Jump();
         }
 
-        // Actualizar la animación de salto
+        // Actualizar la animaciï¿½n de salto
         animator.SetBool("isJumping", !isGrounded);
     }
 
@@ -81,18 +82,19 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+          rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     private bool IsGrounded()
     {
-        // Dibuja un pequeño círculo en el punto `groundCheck` para verificar colisiones con el suelo
+        // Dibuja un pequeï¿½o cï¿½rculo en el punto `groundCheck` para verificar colisiones con el suelo
         Collider2D collider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         return collider != null;
     }
 
 
-    // Método para visualizar el GroundCheck en la ventana de Scene (opcional, útil para depuración)
+    // Mï¿½todo para visualizar el GroundCheck en la ventana de Scene (opcional, ï¿½til para depuraciï¿½n)
     private void OnDrawGizmos()
     {
         if (groundCheck != null)
