@@ -392,7 +392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -638,11 +638,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\nEn el reino de Num\xE9rica, el malvado Dr. Cifro ha robado las estrellas
-    que dan energ\xEDa al mundo, sumiendo al reino en la oscuridad. La Reina N\xFAmera
-    env\xEDa a Max, un joven h\xE1bil en matem\xE1ticas, a recuperarlas. Para salvar
-    Num\xE9rica, Max debe superar retos y guardianes en mundos llenos de desaf\xEDos
-    num\xE9ricos."
+  m_text: "\nAl regne de Num\xE8rica, el malvat Dr. Cifro ha robat les estrelles
+    que donen energia al m\xF3n, sumint el regne en la foscor. La Reina N\xFAmera
+    envia Max, un jove h\xE0bil en matem\xE0tiques, a recuperar-les. Per salvar Num\xE8rica,
+    Max ha de superar reptes i guardians en mons plens de desafiaments num\xE8rics."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
