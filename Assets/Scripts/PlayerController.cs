@@ -1,11 +1,12 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 1000f;
+    public float moveSpeed;
+    public float jumpForce;
     public LayerMask groundLayer;
     public Transform groundCheck;
     public float groundCheckRadius = 0.5f;
@@ -15,12 +16,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movement;
     private bool isGrounded;
-    private bool isJumping;  // Nueva bandera para controlar el salto
+    private bool isJumping;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        jumpForce = 200f;
+        moveSpeed = 25f;
     }
 
     void Update()
@@ -44,16 +47,30 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
 
-        // Animación de caminar
-        if (moveX != 0 && isGrounded && !isJumping)
+        // Actualizar animaciones según el estado
+        if (isGrounded)
         {
-            animator.SetBool("isRunning", true);
-            animator.SetBool("idle", false);
+            if (moveX != 0 && !isJumping)
+            {
+                // Si está en el suelo y moviéndose, activar la animación de correr
+                animator.SetBool("isRunning", true);
+                animator.SetBool("idle", false);
+                animator.SetBool("isJumping", false);
+            }
+            else if (!isJumping)
+            {
+                // Si está en el suelo y no moviéndose, activar la animación de idle
+                animator.SetBool("isRunning", false);
+                animator.SetBool("idle", true);
+                animator.SetBool("isJumping", false);
+            }
         }
-        else if (isGrounded && !isJumping)
+        else
         {
+            // Si está en el aire, activar la animación de salto y desactivar las otras
+            animator.SetBool("isJumping", true);
             animator.SetBool("isRunning", false);
-            animator.SetBool("idle", true);
+            animator.SetBool("idle", false);
         }
 
         // Saltar cuando se presiona la tecla "Jump" y el personaje está en el suelo
@@ -61,9 +78,6 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-
-        // Actualizar la animación de salto
-        animator.SetBool("isJumping", isJumping);
     }
 
     void FixedUpdate()
