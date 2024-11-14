@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        jumpForce = 200f;
+        jumpForce = 180f;
         moveSpeed = 25f;
     }
 
