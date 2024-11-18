@@ -14,6 +14,7 @@ public class SlimeG : MonoBehaviour
     public float stopDuration = 2f;
     private bool isStopped = false; // Indica si el slime está en pausa
     private float stopTimer; // Temporizador para la pausa tras colisión
+    private Animator animator;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -101,8 +102,13 @@ public class SlimeG : MonoBehaviour
 
     private void Die()
     {
+        if (isDead) return; // Evitar múltiples llamadas
+
         isDead = true;
-        // Aquí puedes agregar animación de muerte o destrucción
-        Destroy(gameObject);
+        rb.velocity = Vector2.zero; // Detener el movimiento inmediatamente
+        rb.bodyType = RigidbodyType2D.Static; // Detener toda interacción física
+        animator.SetBool("isPisado", true); // Activar animación de muerte
+        GetComponent<Collider2D>().enabled = false; // Desactivar colisión
+        Destroy(gameObject, 0.5f); // Destruir el slime después de la animación
     }
 }

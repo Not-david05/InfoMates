@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         // Consideramos que el personaje está en el suelo si la velocidad vertical es casi cero
-        bool groundedStatus = Mathf.Abs(rb.velocity.y) < 0.1f;
+        bool groundedStatus = Mathf.Abs(rb.velocity.y) < 0.01f;
 
         // Cambiar el estado de `isJumping` en función de si el personaje está en el suelo
         if (groundedStatus)
