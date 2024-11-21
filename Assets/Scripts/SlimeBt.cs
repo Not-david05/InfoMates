@@ -132,11 +132,15 @@ public class SlimeBt : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Colisión detectada con el jugador");
-
-            // Si el jugador viene desde arriba y tiene suficiente velocidad, el slime muere
-            if (collision.relativeVelocity.y >= deathForce)
+            //GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 2;
+            if (posY > posEY)
             {
-                Die();
+                isDead = true;
+                animator.SetBool("isPisado", true); // Activar animación de muerte
+                Destroy(gameObject, 0.58f);
+                
             }
             else
             {
@@ -168,13 +172,6 @@ public class SlimeBt : MonoBehaviour
         Debug.Log("IsGrounded: " + groundedStatus);
 
         return groundedStatus;
-    }
-    private void Die()
-    {
-        rb.velocity = Vector2.zero;
-        isDead = true;
-        animator.SetBool("isPisado", true); // Activar animación de muerte
-        Destroy(gameObject, 0.5f); // Destruir el objeto tras la animación
     }
 }
 

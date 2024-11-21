@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +12,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-
     private Vector2 movement;
     private bool isGrounded;
     private bool isJumping;
@@ -108,4 +106,8 @@ public class PlayerController : MonoBehaviour
 
         return groundedStatus;
     }
+
+    // Detectar colisiones con enemigos
+    
 }
+

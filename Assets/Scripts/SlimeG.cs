@@ -6,18 +6,31 @@ public class SlimeG : MonoBehaviour
 {
     public Transform player; // El jugador
     public float speed = 2f; // Velocidad de movimiento
+    public float jumpForce = 5f; // Fuerza del salto
     public float detectionRange = 5f; // Distancia de detección del jugador
     public float deathForce = 5f; // Fuerza mínima para "matar" al slime
+    public float jumpInterval = 2f; // Intervalo de tiempo entre saltos
     private bool facingRight = false; // Para controlar hacia dónde está mirando
     private bool isDead = false;
     private Rigidbody2D rb;
+    private float jumpTimer; // Temporizador para los saltos
     public float stopDuration = 2f;
     private bool isStopped = false; // Indica si el slime está en pausa
     private float stopTimer; // Temporizador para la pausa tras colisión
     private Animator animator;
+    private bool isGrounded;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.5f;
+
+    // Nuevas variables para controlar las animaciones
+    private bool isPreparing = false;
+    private bool isJumping = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>(); 
     }
 
     private void Update()
@@ -73,22 +86,23 @@ public class SlimeG : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Colisión detectada con: " + collision.gameObject.name); // Muestra el nombre del objeto con el que colisiona
 
         if (collision.gameObject.CompareTag("Player"))
-        // collision.gameObject.name ==  collision.gameObject.Player
         {
-            Debug.Log("Colisión con el jugador");
-
-            // Si el jugador viene desde arriba con suficiente velocidad, el slime muere
-            if (collision.relativeVelocity.y >= deathForce)
+            Debug.Log("Colisión detectada con el jugador");
+            //GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 2;
+            if (posY > posEY)
             {
-                Debug.Log("Jugador aplasta al slime");
-                Destroy(gameObject);
+                isDead = true;
+                animator.SetBool("isPisado", true); // Activar animación de muerte
+                Destroy(gameObject, 0.55f);
+
             }
             else
             {
-                Debug.Log("Jugador colisiona con el slime, pero no lo aplasta");
+                // Si no se cumple la condición para morir, el slime entra en pausa
                 StopMovement();
             }
         }
@@ -102,13 +116,8 @@ public class SlimeG : MonoBehaviour
 
     private void Die()
     {
-        if (isDead) return; // Evitar múltiples llamadas
-
         isDead = true;
-        rb.velocity = Vector2.zero; // Detener el movimiento inmediatamente
-        rb.bodyType = RigidbodyType2D.Static; // Detener toda interacción física
-        animator.SetBool("isPisado", true); // Activar animación de muerte
-        GetComponent<Collider2D>().enabled = false; // Desactivar colisión
-        Destroy(gameObject, 0.5f); // Destruir el slime después de la animación
+        // Aquí puedes agregar animación de muerte o destrucción
+        Destroy(gameObject);
     }
 }
