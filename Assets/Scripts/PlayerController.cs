@@ -16,12 +16,18 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isJumping;
 
+    private Vector3 originalScale;
+    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        jumpForce = 180f;
-        moveSpeed = 25f;
+        
+        
+
+        originalScale = transform.localScale;
+        
     }
 
     void Update()
@@ -34,7 +40,9 @@ public class PlayerController : MonoBehaviour
 
         // Detectar si el personaje está en el suelo usando la función `IsGrounded`
         isGrounded = IsGrounded();
-
+        transform.localScale = originalScale;
+        
+        
         // Actualizar la dirección del personaje
         if (Input.GetKey(KeyCode.A))
         {
@@ -51,21 +59,26 @@ public class PlayerController : MonoBehaviour
             if (moveX != 0 && !isJumping)
             {
                 // Si está en el suelo y moviéndose, activar la animación de correr
+               transform.localScale = originalScale;
                 animator.SetBool("isRunning", true);
                 animator.SetBool("idle", false);
                 animator.SetBool("isJumping", false);
+                
             }
             else if (!isJumping)
             {
                 // Si está en el suelo y no moviéndose, activar la animación de idle
+                transform.localScale = originalScale;
                 animator.SetBool("isRunning", false);
                 animator.SetBool("idle", true);
                 animator.SetBool("isJumping", false);
+                
             }
         }
         else
         {
             // Si está en el aire, activar la animación de salto y desactivar las otras
+            transform.localScale = originalScale;
             animator.SetBool("isJumping", true);
             animator.SetBool("isRunning", false);
             animator.SetBool("idle", false);
