@@ -50,7 +50,9 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
+            Vector3 scale = transform.localScale;
+        scale.x *= -1; // Invierte la escala en el eje X
         }
 
         // Actualizar animaciones según el estado
