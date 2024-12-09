@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Registro de depuración
-        Debug.Log("IsGrounded: " + groundedStatus);
+       
 
         return groundedStatus;
     }

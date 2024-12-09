@@ -1,45 +1,79 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI; // Importar para acceder a elementos de UI
+using TMPro; // Importa el namespace de TextMeshPro
 
-public class temporizador : MonoBehaviour
+public class Timer : MonoBehaviour
 {
-     public float levelTime = 60f; // Tiempo límite en segundos
-    private float timeRemaining;
+    public TextMeshProUGUI timerText; // Referencia al texto de la UI
+    public float startTimeInSeconds = 900f; // Tiempo inicial en segundos (15 minutos)
 
-    public Text timerText; // Referencia al elemento de texto
+    private float timeRemaining; // Tiempo restante en la cuenta regresiva
+    private bool isTimerRunning = true; // Controla si el contador está activo
+
+    [Header("Offset Settings")]
+    public Vector3 positionOffset = new Vector3(0f, 0f, 0f); // Desplazamiento en relación a la cámara
+
+    private Camera mainCamera; // Referencia a la cámara principal
 
     void Start()
     {
-        timeRemaining = levelTime;
+        mainCamera = Camera.main; // Obtén la cámara principal al inicio
+        timeRemaining = startTimeInSeconds; // Inicializa el tiempo restante
     }
 
     void Update()
     {
-        // Reducir el tiempo restante
-        timeRemaining -= Time.deltaTime;
+        if (isTimerRunning)
+        {
+            // Actualizar el tiempo restante
+            timeRemaining -= Time.deltaTime;
 
-        // Actualizar el texto del temporizador
-        if (timerText != null)
-        {
-            int minutes = Mathf.FloorToInt(timeRemaining / 60);
-            int seconds = Mathf.FloorToInt(timeRemaining % 60);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            // Detener el contador cuando llegue a 0
+            if (timeRemaining <= 0f)
+            {
+                timeRemaining = 0f;
+                isTimerRunning = false;
+            }
+
+            // Formatear el tiempo en minutos y segundos
+            int minutes = Mathf.FloorToInt(timeRemaining / 60f);
+            int seconds = Mathf.FloorToInt(timeRemaining % 60f);
+
+            // Mostrar el tiempo en el texto
+            timerText.text = $"{minutes:00}:{seconds:00}";
         }
-        
-        // Comprobar si el tiempo ha llegado a cero
-        if (timeRemaining <= 0)
+
+        // Asegurar que el texto siga a la cámara
+        UpdateTextPosition();
+    }
+
+    private void UpdateTextPosition()
+    {
+        if (mainCamera != null)
         {
-            // Llamar a la función de pérdida
-            GameOver();
+            // Calcula la posición en base a la cámara y el offset definido
+            Vector3 targetPosition = mainCamera.transform.position +
+                                     mainCamera.transform.forward * positionOffset.z +
+                                     mainCamera.transform.up * positionOffset.y +
+                                     mainCamera.transform.right * positionOffset.x;
+
+            // Asigna la posición y rotación para mirar hacia la cámara
+            timerText.transform.position = targetPosition;
+            timerText.transform.rotation = Quaternion.LookRotation(timerText.transform.position - mainCamera.transform.position);
         }
     }
 
-    void GameOver()
+    public float GetTimeRemaining()
     {
-        // Reiniciar el nivel o mostrar pantalla de derrota
-        SceneManager.LoadScene("PantallaInicial");
+        return timeRemaining;
+    }
+
+    public void StartTimer()
+    {
+        isTimerRunning = true;
+    }
+
+    public void StopTimer()
+    {
+        isTimerRunning = false;
     }
 }
