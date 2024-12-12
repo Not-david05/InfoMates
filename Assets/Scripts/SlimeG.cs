@@ -92,7 +92,7 @@ public class SlimeG : MonoBehaviour
             Debug.Log("Colisi�n detectada con el jugador");
             //GameObject.Find("Player").GetComponent<Transform>().position.y;
             float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
-            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 1;
+            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 19;
             if (posY > posEY)
             {
                 isDead = true;

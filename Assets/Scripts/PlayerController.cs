@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public Transform groundCheck;
     public float groundCheckRadius = 0.5f;
+     public float fallThreshold;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -91,6 +93,12 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+
+         // Verificar si el personaje cayó por debajo del límite
+        if (transform.position.y < fallThreshold)
+        {
+            GameOver();
+        }
     }
 
     void FixedUpdate()
@@ -120,6 +128,12 @@ public class PlayerController : MonoBehaviour
        
 
         return groundedStatus;
+    }
+
+    void GameOver()
+    {
+        // Manejar el final del juego (reiniciar nivel o ir a una pantalla específica)
+        SceneManager.LoadScene("GameOver");
     }
 
     // Detectar colisiones con enemigos
