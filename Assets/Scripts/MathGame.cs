@@ -12,6 +12,7 @@ public class MathGame : MonoBehaviour
     public TextMeshProUGUI externalTextToDestroy; // Referencia al objeto TextMeshPro externo
     public float interactionDistance = 3f; // Distancia mínima para interactuar
     public float delayBeforeClosing = 2f; // Tiempo de espera antes de cerrar el panel (en segundos)
+
     private CanvasGroup mathUICanvasGroup; // CanvasGroup para controlar la interactividad del panel
     private int correctAnswer; // Respuesta correcta de la operación
     private bool isInteractionLocked = false; // Bloquear interacciones después de resolver una operación
@@ -31,7 +32,7 @@ public class MathGame : MonoBehaviour
         textHint.gameObject.SetActive(false); // Ocultar el texto de pistas al inicio
         answerInputField.text = ""; // Limpiar el InputField al inicio
         answerInputField.onEndEdit.AddListener(CheckAnswer); // Vincular el evento al método CheckAnswer
-        
+        GenerateMathProblem(); // Generar problema matemático al inicio
     }
 
     private void Update()
@@ -60,15 +61,15 @@ public class MathGame : MonoBehaviour
     private void GenerateMathProblem()
     {
         // Generar dos números aleatorios para la operación
-        int num1 = Random.Range(1, 100);
-        int num2 = Random.Range(1, 100);
-        correctAnswer = num1 * num2;
+        int num1 = Random.Range(1, 10);
+        int num2 = Random.Range(1, 10);
+        correctAnswer = num1 + num2;
 
         // Actualizar el texto de la operación matemática
         TMPro.TextMeshProUGUI problemText = mathUI.transform.Find("MathProblemText").GetComponent<TextMeshProUGUI>();
         if (problemText != null)
         {
-            problemText.text = $"{num1} X {num2} = ?";
+            problemText.text = $"{num1} + {num2} = ?";
         }
         else
         {

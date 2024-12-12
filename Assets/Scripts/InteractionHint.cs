@@ -9,7 +9,7 @@ public class InteractionHint : MonoBehaviour
     private Transform playerTransform;  // Referencia al transform del jugador
     private bool isPlayerNearby = false; // Estado de si el jugador está cerca
     public string interactableTag = "Puertas"; // La etiqueta que debe tener el objeto con el que se interactúa
-    public GameObject objectToDestroy; 
+
     private void Start()
     {
         playerTransform = Camera.main.transform; // Obtener la cámara principal, que generalmente es la del jugador
