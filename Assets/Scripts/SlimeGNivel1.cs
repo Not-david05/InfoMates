@@ -84,51 +84,34 @@ public class SlimeGNivel1 : MonoBehaviour
     }
 
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Colisión detectada con el jugador");
-
-            float posY = collision.gameObject.transform.position.y;
-            float posEY = transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2;
-
+            Debug.Log("Colisi�n detectada con el jugador");
+            //GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
+            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 2;
             if (posY > posEY)
             {
                 isDead = true;
-                animator.SetBool("isPisado", true); // Activar animación de muerte
-                Destroy(gameObject, 0.58f);
+                animator.SetBool("isPisado", true); // Activar animaci�n de muerte
+                Destroy(gameObject, 0.55f);
+
             }
             else
             {
-                // Si no se cumple la condición para morir, el slime repele al jugador
-                RepelPlayer(collision.gameObject);
+                // Si no se cumple la condici�n para morir, el slime entra en pausa
+                StopMovement();
             }
         }
     }
-    private void RepelPlayer(GameObject player)
+    private void StopMovement()
     {
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-
-        if (playerRb != null)
-        {
-            // Calcular dirección de repulsión
-            Vector2 repelDirection = (player.transform.position - transform.position).normalized;
-
-            // Fuerza de repulsión configurable
-            float repelForceHorizontal = 300f; // Ajustar fuerza horizontal
-            float repelForceVertical = 170f;   // Ajustar fuerza vertical
-
-            // Aplicar fuerza en ejes horizontal y vertical
-            Vector2 repelForce = new Vector2(repelDirection.x * repelForceHorizontal, repelForceVertical);
-            playerRb.AddForce(repelForce, ForceMode2D.Impulse);
-
-            // Registro para depuración
-            Debug.Log("Repel player with force: " + repelForce);
-        }
-
-       
+        isStopped = true; // Activar la pausa
+        stopTimer = stopDuration; // Reiniciar el temporizador de pausa
+        rb.velocity = Vector2.zero; // Detener el movimiento del slime
     }
 
     private void Die()
