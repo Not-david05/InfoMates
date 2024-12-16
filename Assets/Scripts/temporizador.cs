@@ -91,4 +91,32 @@ public class Timer : MonoBehaviour
     {
         isTimerRunning = false;
     }
+
+    public void SumarTimer(float seconds){
+    if (isTimerRunning) // Solo si el temporizador está activo
+        {
+            timeRemaining += seconds;
+            if (timeRemaining < 0f)
+            {
+                timeRemaining = 0f; // Asegurarse de que no sea negativo
+                isTimerRunning = false;
+                OnTimerEnd?.Invoke();
+                SceneManager.LoadScene("GameOver"); // Si el tiempo llega a 0, termina el juego
+            }
+        }
+    }
+
+    public void RestarTimer(float seconds){
+    if (isTimerRunning) // Solo si el temporizador está activo
+        {
+            timeRemaining -= seconds;
+            if (timeRemaining < 0f)
+            {
+                timeRemaining = 0f; // Asegurarse de que no sea negativo
+                isTimerRunning = false;
+                OnTimerEnd?.Invoke();
+                SceneManager.LoadScene("GameOver"); // Si el tiempo llega a 0, termina el juego
+            }
+        }
+    }
 }

@@ -122,32 +122,55 @@ public class SlimeBt : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isJumping&& IsGrounded())
-        {
-            // Si el slime toca cualquier superficie, desactivar el estado de salto
-            isJumping = false;
-            animator.SetBool("isJumping", false);
-        }
+
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Colisi�n detectada con el jugador");
-            //GameObject.Find("Player").GetComponent<Transform>().position.y;
-            float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
-            float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 4;
-            if (posY > posEY)
+            float playerY = collision.transform.position.y;
+            float enemyY = transform.position.y;
+            float enemyHeight = GetComponent<SpriteRenderer>().bounds.size.y;
+
+            if (playerY > enemyY + (enemyHeight / 2)) // Compara usando la altura del enemigo
             {
+                // El slime muere si el jugador cae desde arriba
                 isDead = true;
-                animator.SetBool("isPisado", true); // Activar animaci�n de muerte
-                Destroy(gameObject, 0.58f);
-                
+                animator.SetBool("isPisado", true);
+                Destroy(gameObject, 0.55f);
             }
             else
             {
-                // Si no se cumple la condici�n para morir, el slime entra en pausa
-                StopMovement();
+                // Si no cumple, mata al jugador
+                FindObjectOfType<Timer>().RestarTimer(5f);
+                
+                // collision.gameObject.GetComponent<PlayerController>().GameOver();
             }
         }
+        // if (isJumping&& IsGrounded())
+        // {
+        //     // Si el slime toca cualquier superficie, desactivar el estado de salto
+        //     isJumping = false;
+        //     animator.SetBool("isJumping", false);
+        // }
+
+        // if (collision.gameObject.CompareTag("Player"))
+        // {
+        //     Debug.Log("Colisi�n detectada con el jugador");
+        //     //GameObject.Find("Player").GetComponent<Transform>().position.y;
+        //     float posY = GameObject.Find("Player").GetComponent<Transform>().position.y;
+        //     float posEY = transform.position.y + GameObject.Find("Player").GetComponent<SpriteRenderer>().bounds.size.y / 4;
+        //     if (posY > posEY)
+        //     {
+        //         isDead = true;
+        //         animator.SetBool("isPisado", true); // Activar animaci�n de muerte
+        //         Destroy(gameObject, 0.58f);
+
+        //     }
+        //     else
+        //     {
+        //         // Si no se cumple la condici�n para morir, el slime entra en pausa
+        //         StopMovement();
+        //     }
+        // }
     }
 
 

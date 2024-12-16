@@ -130,7 +130,23 @@ public class PlayerController : MonoBehaviour
         return groundedStatus;
     }
 
-    void GameOver()
+    private void OnTriggerEnter2D(Collider2D collision)
+{
+    // Detectar si el collider superior golpea un enemigo
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        // Restar 5 segundos del temporizador
+        FindObjectOfType<Timer>().SumarTimer(5f);
+
+        // Destruir al enemigo
+        Destroy(collision.gameObject);
+
+        // Añadir un rebote al jugador
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce * 0.09f);
+    }
+}
+
+    public void GameOver()
     {
         // Manejar el final del juego (reiniciar nivel o ir a una pantalla específica)
         SceneManager.LoadScene("GameOver");
