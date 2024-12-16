@@ -132,6 +132,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
 {
+    
+    if (collision.gameObject.CompareTag("Impulso"))
+    {
+        // Añadir un rebote al jugador
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce * 0.5f);
+    }
     // Detectar si el collider superior golpea un enemigo
     if (collision.gameObject.CompareTag("Enemy"))
     {
@@ -144,6 +150,8 @@ public class PlayerController : MonoBehaviour
         // Añadir un rebote al jugador
         rb.velocity = new Vector2(rb.velocity.x, jumpForce * 0.09f);
     }
+    // Detectar si pisa el impulso
+    
 }
 
     public void GameOver()
