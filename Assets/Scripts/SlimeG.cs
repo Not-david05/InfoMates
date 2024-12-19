@@ -21,6 +21,8 @@ public class SlimeG : MonoBehaviour
     private bool isGrounded;
     public LayerMask groundLayer;
     public Transform groundCheck;
+    public float forceH;
+    public float forceV;
     public float groundCheckRadius = 0.5f;
 
     // Nuevas variables para controlar las animaciones
@@ -105,6 +107,7 @@ public class SlimeG : MonoBehaviour
             {
                 // Si no cumple, mata al jugador
                 FindObjectOfType<Timer>().RestarTimer(5f);
+                RepelPlayer(collision.gameObject);
                 // collision.gameObject.GetComponent<PlayerController>().GameOver();
             }
         }
@@ -134,6 +137,29 @@ public class SlimeG : MonoBehaviour
         //         StopMovement();
         //     }
         // }
+    }
+    private void RepelPlayer(GameObject player)
+    {
+        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+
+        if (playerRb != null)
+        {
+            // Calcular dirección de repulsión
+            Vector2 repelDirection = (player.transform.position - transform.position).normalized;
+
+            // Fuerza de repulsión configurable
+            float repelForceHorizontal = forceH; // Ajustar fuerza horizontal
+            float repelForceVertical = forceV;   // Ajustar fuerza vertical
+
+            // Aplicar fuerza en ejes horizontal y vertical
+            Vector2 repelForce = new Vector2(repelDirection.x * repelForceHorizontal, repelForceVertical);
+            playerRb.AddForce(repelForce, ForceMode2D.Impulse);
+
+            // Registro para depuración
+            Debug.Log("Repel player with force: " + repelForce);
+        }
+
+
     }
     private void StopMovement()
     {
