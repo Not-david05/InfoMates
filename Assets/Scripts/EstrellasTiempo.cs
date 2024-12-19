@@ -20,14 +20,14 @@ public class Star : MonoBehaviour
 
     void Update()
     {
-        Timer timer = FindObjectOfType<Timer>(); // Buscar el script Timer dinámicamente
+        Timer timer = FindObjectOfType<Timer>(); // Buscar el script Timer dinï¿½micamente
 
         if (timer != null)
         {
-            Debug.LogError("Timer encontrado");
+            
             float elapsedTime = timer.GetTimeRemaining();
 
-            // Cambiar el estado del animador según el tiempo restante
+            // Cambiar el estado del animador segï¿½n el tiempo restante
             if (timer.GetTimeRemaining() <= time)
             {
                 animator.SetBool("ON", false);

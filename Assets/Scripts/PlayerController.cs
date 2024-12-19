@@ -33,73 +33,64 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
+{
+    // Obtener la entrada del usuario para moverse (izquierda/derecha)
+    float moveX = Input.GetAxisRaw("Horizontal");
+
+    // Establecer el movimiento
+    movement = new Vector2(moveX, 0).normalized;
+
+    // Detectar si el personaje está en el suelo usando la función `IsGrounded`
+    isGrounded = IsGrounded();
+
+    // Actualizar la dirección del personaje (invertir escala si es necesario)
+    if (moveX < 0)
     {
-        // Obtener la entrada del usuario para moverse (izquierda/derecha)
-        float moveX = Input.GetAxisRaw("Horizontal");
+        transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+    }
+    else if (moveX > 0)
+    {
+        transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+    }
 
-        // Establecer el movimiento
-        movement = new Vector2(moveX, 0).normalized;
-
-        // Detectar si el personaje está en el suelo usando la función `IsGrounded`
-        isGrounded = IsGrounded();
-        transform.localScale = originalScale;
-        
-        
-        // Actualizar la dirección del personaje
-        if (Input.GetKey(KeyCode.A))
+    // Actualizar animaciones según el estado
+    if (isGrounded)
+    {
+        if (moveX != 0 && !isJumping)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-            Vector3 scale = transform.localScale;
-        scale.x *= -1; // Invierte la escala en el eje X
-        }
-
-        // Actualizar animaciones según el estado
-        if (isGrounded)
-        {
-            if (moveX != 0 && !isJumping)
-            {
-                // Si está en el suelo y moviéndose, activar la animación de correr
-               transform.localScale = originalScale;
-                animator.SetBool("isRunning", true);
-                animator.SetBool("idle", false);
-                animator.SetBool("isJumping", false);
-                
-            }
-            else if (!isJumping)
-            {
-                // Si está en el suelo y no moviéndose, activar la animación de idle
-                transform.localScale = originalScale;
-                animator.SetBool("isRunning", false);
-                animator.SetBool("idle", true);
-                animator.SetBool("isJumping", false);
-                
-            }
-        }
-        else
-        {
-            // Si está en el aire, activar la animación de salto y desactivar las otras
-            transform.localScale = originalScale;
-            animator.SetBool("isJumping", true);
-            animator.SetBool("isRunning", false);
+            // Si está en el suelo y moviéndose, activar la animación de correr
+            animator.SetBool("isRunning", true);
             animator.SetBool("idle", false);
+            animator.SetBool("isJumping", false);
         }
-
-        // Saltar cuando se presiona la tecla "Jump" y el personaje está en el suelo
-        if (isGrounded && !isJumping && Input.GetKeyDown(KeyCode.Space))
+        else if (!isJumping)
         {
-            Jump();
-        }
-
-         // Verificar si el personaje cayó por debajo del límite
-        if (transform.position.y < fallThreshold)
-        {
-            GameOver();
+            // Si está en el suelo y no moviéndose, activar la animación de idle
+            animator.SetBool("isRunning", false);
+            animator.SetBool("idle", true);
+            animator.SetBool("isJumping", false);
         }
     }
+    else
+    {
+        // Si está en el aire, activar la animación de salto y desactivar las otras
+        animator.SetBool("isJumping", true);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("idle", false);
+    }
+
+    // Saltar cuando se presiona la tecla "Jump" y el personaje está en el suelo
+    if (isGrounded && !isJumping && Input.GetKeyDown(KeyCode.Space))
+    {
+        Jump();
+    }
+
+    // Verificar si el personaje cayó por debajo del límite
+    if (transform.position.y < fallThreshold)
+    {
+        GameOver();
+    }
+}
 
     void FixedUpdate()
     {
