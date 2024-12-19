@@ -2,44 +2,38 @@ using UnityEngine;
 
 public class Star : MonoBehaviour
 {
-    public Sprite[] starSprites; // Lista de sprites de la estrella
-    public Timer timer; // Referencia al temporizador
+    // Sprite de la estrella
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    public float time;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
-        if (timer == null)
+        if (animator == null)
         {
-            Debug.LogError("Falta asignar el temporizador al script de la estrella.");
+            Debug.LogError("Falta asignar un componente Animator al objeto de la estrella.");
         }
     }
 
     void Update()
     {
+        Timer timer = FindObjectOfType<Timer>(); // Buscar el script Timer dinámicamente
+
         if (timer != null)
         {
+            Debug.LogError("Timer encontrado");
             float elapsedTime = timer.GetTimeRemaining();
 
-            // Cambiar el sprite según el tiempo transcurrido
-            if (elapsedTime < 10f)
+            // Cambiar el estado del animador según el tiempo restante
+            if (timer.GetTimeRemaining() <= time)
             {
-                spriteRenderer.sprite = starSprites[0];
-            }
-            else if (elapsedTime < 20f)
-            {
-                spriteRenderer.sprite = starSprites[1];
-            }
-            else if (elapsedTime < 30f)
-            {
-                spriteRenderer.sprite = starSprites[2];
-            }
-            else
-            {
-                spriteRenderer.sprite = starSprites[3];
+                animator.SetBool("ON", false);
             }
         }
     }
 }
+
 
