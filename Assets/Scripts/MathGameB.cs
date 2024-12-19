@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class MathGameB : MonoBehaviour
+public class MathGameM : MonoBehaviour
 {
     public GameObject mathUI; // Interfaz de la operación matemática
     public GameObject answerPanel; // Panel donde se muestra la respuesta
@@ -37,6 +37,7 @@ public class MathGameB : MonoBehaviour
 
     private void Update()
     {
+        
         // Bloquear interacción si está en espera
         if (isInteractionLocked)
             return;
@@ -59,10 +60,17 @@ public class MathGameB : MonoBehaviour
 
     private void GenerateMathProblem()
     {
+        answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         // Generar coeficientes para una ecuación de segundo grado
-        int a = Random.Range(1, 10); // Coeficiente principal (no cero)
-        int b = Random.Range(-10, 10); // Coeficiente lineal
-        int c = Random.Range(-10, 10); // Término independiente
+        int a, b, c;
+
+        // Asegurarse de que 'a', 'b' y 'c' no sean cero
+        do
+        {
+            a = Random.Range(1, 10); // Coeficiente principal (no cero)
+            b = Random.Range(-10, 10); // Coeficiente lineal
+            c = Random.Range(-10, 10); // Término independiente
+        } while (b == 0 || c == 0);
 
         // Calcular el discriminante
         float discriminant = b * b - 4 * a * c;
@@ -93,26 +101,32 @@ public class MathGameB : MonoBehaviour
         textHint.gameObject.SetActive(false); // Asegurarse de que el texto de hint esté oculto al inicio
     }
 
+
     public void CheckAnswer(string playerInput)
     {
         if (isInteractionLocked)
             return; // Evitar verificar respuestas si la interacción está bloqueada
 
-        textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
+        
 
         // Reemplazar comas por puntos para admitir entrada con comas
         playerInput = playerInput.Replace(',', '.');
 
         if (float.IsNaN(correctAnswer))
         {
+            textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
             textHint.text = "Esta ecuación no tiene soluciones reales.";
             textHint.color = Color.yellow;
             answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
+            StartCoroutine(ClosePanelWithDelay(false)); // Cerrar el panel inmediatamente
+            return;
         }
-        else if (float.TryParse(playerInput, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float playerAnswer))
+
+        if (float.TryParse(playerInput, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float playerAnswer))
         {
             if (Mathf.Abs(playerAnswer - correctAnswer) <= 0.01f) // Permitir un margen de error pequeño
             {
+                textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
                 // Respuesta correcta
                 textHint.text = "¡Respuesta correcta!";
                 textHint.color = Color.green; // Cambiar el color del texto a verde
@@ -125,21 +139,9 @@ public class MathGameB : MonoBehaviour
 
                 StartCoroutine(ClosePanelWithDelay(true));
             }
-            else
-            {
-                // Respuesta incorrecta
-                textHint.text = "Respuesta incorrecta. Intenta de nuevo.";
-                textHint.color = Color.red;
-                answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            }
+            
         }
-        else
-        {
-            // Entrada no válida
-            textHint.text = "Por favor, ingresa un número válido.";
-            textHint.color = Color.yellow;
-            answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
-        }
+        
 
         answerInputField.text = ""; // Limpiar el InputField después de verificar la respuesta
     }
@@ -178,3 +180,6 @@ public class MathGameB : MonoBehaviour
         }
     }
 }
+
+
+

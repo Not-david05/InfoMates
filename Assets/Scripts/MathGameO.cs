@@ -87,7 +87,6 @@ public class MathGameO : MonoBehaviour
         if (isInteractionLocked)
             return; // Evitar verificar respuestas si la interacción está bloqueada
 
-        textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
 
         // Reemplazar comas por puntos para admitir entrada con comas
         playerInput = playerInput.Replace(',', '.');
@@ -96,6 +95,7 @@ public class MathGameO : MonoBehaviour
         {
             if (Mathf.Abs(playerAnswer - correctAnswer) <= 0.01f) // Permitir un margen de error pequeño
             {
+                textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
                 // Respuesta correcta
                 textHint.text = "¡Respuesta correcta!";
                 textHint.color = Color.green; // Cambiar el color del texto a verde
@@ -108,21 +108,9 @@ public class MathGameO : MonoBehaviour
 
                 StartCoroutine(ClosePanelWithDelay(true));
             }
-            else
-            {
-                // Respuesta incorrecta
-                textHint.text = "Respuesta incorrecta. Intenta de nuevo.";
-                textHint.color = Color.red;
-                answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            }
+           
         }
-        else
-        {
-            // Entrada no válida
-            textHint.text = "Por favor, ingresa un número válido.";
-            textHint.color = Color.yellow;
-            answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
-        }
+      
 
         answerInputField.text = ""; // Limpiar el InputField después de verificar la respuesta
     }

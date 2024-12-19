@@ -84,12 +84,13 @@ public class MathGame : MonoBehaviour
         if (isInteractionLocked)
             return; // Evitar verificar respuestas si la interacción está bloqueada
 
-        textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
+        
 
         if (int.TryParse(playerInput, out int playerAnswer))
         {
             if (playerAnswer == correctAnswer)
             {
+                textHint.gameObject.SetActive(true); // Mostrar el texto de pistas
                 // Respuesta correcta
                 textHint.text = "¡Respuesta correcta!";
                 textHint.color = Color.green; // Cambiar el color del texto a verde
@@ -102,21 +103,9 @@ public class MathGame : MonoBehaviour
 
                 StartCoroutine(ClosePanelWithDelay(true));
             }
-            else
-            {
-                // Respuesta incorrecta
-                textHint.text = "Respuesta incorrecta. Intenta de nuevo.";
-                textHint.color = Color.red;
-                answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            }
+           
         }
-        else
-        {
-            // Entrada no válida
-            textHint.text = "Por favor, ingresa un número válido.";
-            textHint.color = Color.yellow;
-            answerPanel.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
-        }
+       
 
         answerInputField.text = ""; // Limpiar el InputField después de verificar la respuesta
     }
